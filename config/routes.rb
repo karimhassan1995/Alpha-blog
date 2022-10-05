@@ -4,6 +4,9 @@ Rails.application.routes.draw do
     get '/hello' , to: 'application#hello'
 
     get '/about', to: 'pages#about'
+
+    get 'signup', to: 'users#new'
+    resources :users, except: [:new]
    
 
     resources :articles # REST: resources = CRUD + edit + new + index
