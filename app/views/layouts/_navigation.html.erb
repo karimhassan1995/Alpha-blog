@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         
         <%= link_to "ALPHA BLOG", root_path, class: "navbar-brand" , id: "logo" %>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,26 +7,57 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                   <%= link_to "Articles" , articles_path, class: "nav-link" %>
-                </li>
+               
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                     <%= link_to "Bloggers" , users_path, class: "nav-link" %>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
+                        Articles
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <% if logged_in %>
+                            <%= link_to "Create Article" , new_article_path , class: "nav-link nav-link-custom" %>
+                        <% end %>
+                            <%= link_to "Articles" , articles_path, class: "nav-link nav-link-custom" %>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categories
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <% if logged_in && current_user.admin?%>
+                            <%= link_to "Create Category" , new_category_path , class: "nav-link nav-link-custom" %>
+                        <% end %>
+                            <%= link_to "Categories" , categories_path, class: "nav-link nav-link-custom" %>
+                       
+                    </div>
                 </li>
+                <% if logged_in %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <%= "(Admin)" if current_user.admin? %> Profile [<%= current_user.username %>]
+                        </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <%= link_to "View your profile" , user_path(current_user) , class: "nav-link nav-link-custom" %>
+                        <%= link_to "Edit your profile" , edit_user_path(current_user), class: "nav-link nav-link-custom" %>
+                        <%= link_to "Delete profile" , user_path(current_user), class: "nav-link nav-link-custom", method: :delete %>
+                    </div>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to 'Logout', logout_path, class: "nav-link" , method: :delete %>
+                    </li>
+                <% else %>
+                    <li class="nav-item">
+                        <%= link_to 'Log In', login_path, class: "nav-link" %>
+                    </li>
+                    <li class="nav-item">
+                        <%= link_to 'Sign Up', signup_path, class: "nav-link" %>
+                    </li>
+               <% end %>
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
